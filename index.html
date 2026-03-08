@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madhava Reddy | Freelance Web Developer & Digital Strategist</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    
+    <style>
+        /* Reset & Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #5e17eb;
+            --primary-light: #7c3aed;
+            --secondary: #06b6d4;
+            --dark: #0f172a; /* Deepened for a more premium feel */
+            --gray: #64748b;
+            --light: #f8fafc;
+            --font-primary: 'Poppins', sans-serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        section { padding: 6rem 0; min-height: 100vh; display: flex; align-items: center; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-secondary); line-height: 1.2; margin-bottom: 1rem; }
+        h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -1px; }
+        h2 { font-size: 2.5rem; font-weight: 700; }
+        h3 { font-size: 1.5rem; font-weight: 600; }
+        p { margin-bottom: 1.5rem; font-size: 1.1rem; color: #475569; }
+        a { text-decoration: none; color: var(--primary); }
+        
+        /* Buttons - Optimized for High CTR */
+        .btn {
+            display: inline-block; padding: 14px 32px; border-radius: 50px;
+            font-weight: 600; transition: all 0.3s ease; cursor: pointer;
+            text-align: center; letter-spacing: 0.5px; font-size: 1.1rem;
+        }
+        .btn-primary { background: var(--primary); color: white; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(94, 23, 235, 0.3); }
+        .btn-primary:hover { background: var(--primary-light); border-color: var(--primary-light); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(94, 23, 235, 0.4); }
+        .btn-secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-secondary:hover { background: var(--primary); color: white; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(94, 23, 235, 0.2); }
+        
+        .section-title { margin-bottom: 3.5rem; text-align: center; position: relative; font-weight: 800;}
+        .section-title::after {
+            content: ''; position: absolute; left: 50%; bottom: -15px;
+            width: 80px; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: translateX(-50%); border-radius: 5px;
+        }
+        
+        /* Preloader */
+        .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--dark); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.5s ease; }
+        .preloader.fade-out { opacity: 0; pointer-events: none; }
+        .preloader .logo { font-size: 2.5rem; color: white; font-weight: 800; letter-spacing: 2px; margin-bottom: 20px; }
+        .preloader .spinner { width: 50px; height: 50px; border: 4px solid rgba(255, 255, 255, 0.1); border-left-color: var(--secondary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        /* Navigation */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 0; z-index: 1000; transition: all 0.4s ease; }
+        .navbar.scrolled { background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 1rem 0; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .navbar .logo { font-size: 1.8rem; font-weight: 800; color: var(--dark); }
+        .navbar .logo span { color: var(--primary); }
+        .menu-toggle { display: none; cursor: pointer; font-size: 1.5rem; }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin-left: 2.5rem; }
+        .nav-links a { color: var(--dark); font-weight: 600; position: relative; transition: color 0.3s ease; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        
+        /* Hero Section */
+        #hero { position: relative; min-height: 100vh; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); overflow: hidden; padding-top: 6rem; }
+        .hero-content { max-width: 900px; margin: 0 auto; text-align: center; z-index: 1; position: relative; }
+        .hero-tagline { display: inline-block; background: rgba(94, 23, 235, 0.1); color: var(--primary); padding: 8px 16px; border-radius: 50px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; font-size: 0.9rem; border: 1px solid rgba(94, 23, 235, 0.2); }
+        .hero-heading { font-size: 4.5rem; margin-bottom: 1.5rem; line-height: 1.1; color: var(--dark); }
+        .hero-heading span { background: linear-gradient(120deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-desc { font-size: 1.3rem; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero-btns { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+        
+        /* About Section */
+        #about { background: white; }
+        .about-container { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; }
+        .about-image { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15); }
+        .about-image img { width: 100%; height: auto; display: block; }
+        .about-content h2 { margin-bottom: 1rem; }
+        .highlight-text { font-size: 1.2rem; font-weight: 600; color: var(--primary); margin-bottom: 1.5rem; }
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid #e2e8f0; }
+        .stat-item h3 { font-size: 2.5rem; font-weight: 800; color: var(--dark); margin-bottom: 0.2rem; }
+        .stat-item p { font-size: 0.95rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Services Section */
+        #services { background: #f8fafc; }
+        .services-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+        .service-card { background: white; border-radius: 15px; padding: 3rem 2rem; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); border: 1px solid rgba(0,0,0,0.05); position: relative; z-index: 1; overflow: hidden; }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 0; background: linear-gradient(135deg, var(--primary), var(--secondary)); z-index: -1; transition: all 0.4s ease; opacity: 0; }
+        .service-card:hover::before { height: 100%; opacity: 1; }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(94, 23, 235, 0.15); border-color: transparent; }
+        .service-card:hover h3, .service-card:hover p { color: white; }
+        .service-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; transition: all 0.4s ease; }
+        .service-card:hover .service-icon { color: white; transform: scale(1.1); }
+        
+        /* Projects Section */
+        #projects { background: white; }
+        .projects-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
+        .project-card { position: relative; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); height: 350px; background: #e2e8f0; }
+        .project-img { width: 100%; height: 100%; object-fit: cover; transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .project-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.4) 50%, transparent 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 2.5rem; opacity: 0; transition: all 0.5s ease; }
+        .project-card:hover .project-overlay { opacity: 1; }
+        .project-card:hover .project-img { transform: scale(1.08); }
+        .project-tag { display: inline-block; background: var(--secondary); color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .project-overlay h3 { color: white; font-size: 1.8rem; margin-bottom: 0.5rem; transform: translateY(20px); transition: all 0.4s ease 0.1s; }
+        .project-overlay p { color: #cbd5e1; margin-bottom: 1.5rem; transform: translateY(20px); transition: all 0.4s ease 0.2s; font-size: 1rem; }
+        .project-card:hover h3, .project-card:hover p { transform: translateY(0); }
+        .project-links { display: flex; gap: 1rem; transform: translateY(20px); transition: all 0.4s ease 0.3s; }
+        .project-card:hover .project-links { transform: translateY(0); }
+        .project-link { padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .link-live { background: var(--primary); color: white; }
+        .link-live:hover { background: white; color: var(--primary); }
+        
+        .more-projects { text-align: center; margin-top: 4rem; }
+        
+        /* Why Me */
+        #why-me { background: #0f172a; color: white; }
+        #why-me .section-title { color: white; }
+        .benefits-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
+        .benefit-item { text-align: center; padding: 3rem 2rem; border-radius: 15px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
+        .benefit-item:hover { transform: translateY(-10px); background: rgba(255,255,255,0.08); border-color: var(--primary); }
+        .benefit-item p { color: #94a3b8; }
+        .benefit-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-light), var(--primary)); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; box-shadow: 0 10px 20px rgba(94, 23, 235, 0.3); }
+
+        /* Contact Section */
+        #contact { background: white; }
+        .contact-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; }
+        .contact-info-wrap { padding-right: 2rem; }
+        .contact-info-wrap h3 { font-size: 2rem; margin-bottom: 1rem; }
+        .contact-card { display: flex; align-items: flex-start; margin-bottom: 2rem; }
+        .contact-icon { width: 50px; height: 50px; border-radius: 12px; background: rgba(94, 23, 235, 0.1); display: flex; align-items: center; justify-content: center; margin-right: 1.5rem; color: var(--primary); font-size: 1.5rem; flex-shrink: 0; }
+        .contact-form { background: #f8fafc; border-radius: 20px; padding: 3rem; border: 1px solid #e2e8f0; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-control { width: 100%; padding: 16px 24px; border: 1px solid #cbd5e1; border-radius: 12px; font-family: var(--font-primary); font-size: 1rem; transition: all 0.3s ease; background: white; }
+        textarea.form-control { min-height: 150px; resize: vertical; }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(94, 23, 235, 0.1); }
+        .form-btn { width: 100%; border-radius: 12px; padding: 18px; font-size: 1.2rem; }
+
+        /* Footer */
+        footer { background: #020617; color: white; padding: 5rem 0 2rem; }
+        .footer-container { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 3rem; margin-bottom: 2rem; }
+        .footer-about p { color: #94a3b8; max-width: 400px; margin-top: 1.5rem; }
+        .footer-links h4 { font-size: 1.2rem; margin-bottom: 1.5rem; color: white; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 1rem; }
+        .footer-links a { color: #94a3b8; transition: all 0.3s ease; font-weight: 500; }
+        .footer-links a:hover { color: var(--secondary); padding-left: 8px; }
+        .social-links { display: flex; gap: 1rem; margin-top: 2rem; }
+        .social-link { width: 45px; height: 45px; border-radius: 50%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: white; transition: all 0.3s ease; font-size: 1.2rem; }
+        .social-link:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-5px); }
+        .footer-bottom { text-align: center; color: #64748b; font-size: 0.95rem; }
+
+        @media (max-width: 992px) {
+            .about-container, .contact-container, .footer-container { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-heading { font-size: 3.5rem; }
+        }
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background: white; flex-direction: column; justify-content: center; align-items: center; transition: all 0.4s ease; z-index: 900; }
+            .nav-links.show { right: 0; }
+            .nav-links li { margin: 1.5rem 0; font-size: 1.5rem; }
+            .close-menu { position: absolute; top: 30px; right: 30px; font-size: 2rem; cursor: pointer; color: var(--dark); display: block !important; }
+            .hero-heading { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="logo">MK.</div>
+        <div class="spinner"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">Madhava<span>.</span></div>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <ul class="nav-links">
+                <i class="fas fa-times close-menu" style="display:none;"></i>
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#projects">Work</a></li>
+                <li><a href="#why-me">Why Me</a></li>
+                <li><a href="#contact" class="btn btn-primary" style="color:white; padding: 10px 24px; margin-left:1rem;">start a project</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-tagline">Available for Freelance Projects</span>
+                <h1 class="hero-heading">I Build High-Converting Web Solutions That <span>Drive Business Growth</span></h1>
+                <p class="hero-desc">Stop losing clients to slow, outdated websites. I engineer modern, fast, and secure digital experiences tailored to scale your brand and increase revenue.</p>
+                <div class="hero-btns">
+                    <a href="#projects" class="btn btn-primary">View My Portfolio</a>
+                    <a href="#contact" class="btn btn-secondary">Let's Discuss Your Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container about-container">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Madhava Reddy Kethu" />
+            </div>
+            <div class="about-content">
+                <h2>Your Partner in Digital Success.</h2>
+                <p class="highlight-text">Hi, I'm Madhava Reddy Kethu. I bridge the gap between stunning design and rock-solid functionality.</p>
+                <p>In today's market, a website isn't just a digital brochure—it's your best salesperson. I specialize in building custom, high-performance web applications that don't just look incredible, but are strategically designed to convert visitors into loyal customers.</p>
+                <p>With an entrepreneurial mindset, I treat every client's project as if it were my own business. No tech jargon, no missed deadlines—just clean code and measurable results.</p>
+                
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <h3>45+</h3>
+                        <p>Projects Shipped</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>100%</h3>
+                        <p>Client Focus</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title">Solutions Engineered for Growth</h2>
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3>Full-Stack Development</h3>
+                    <p>End-to-end web applications built with modern frameworks and robust databases (like Supabase) to handle your business logic flawlessly.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>High-Performance Landing Pages</h3>
+                    <p>Lightning-fast, SEO-optimized static sites designed specifically to capture leads and drive marketing campaigns.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Responsive UI/UX</h3>
+                    <p>Pixel-perfect interfaces that provide an intuitive, engaging experience across all devices, keeping your users hooked.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Case Studies</h2>
+            <p style="text-align:center; max-width: 600px; margin: 0 auto 3rem;">A curated selection from my portfolio of 45+ projects, demonstrating full-stack capabilities, API integrations, and modern UI design.</p>
+            
+            <div class="projects-container">
+                <div class="project-card">
+                    <img src="Screenshot 2026-03-08 015012.png" alt="Smart Farming App" class="project-img" />
+                    <div class="project-overlay">
+                        <span class="project-tag">Full-Stack SaaS</span>
+                        <h3>SmartFarming Hub</h3>
+                        <p>A comprehensive agricultural management platform featuring a robust Supabase backend, real-time data handling, and secure authentication deployed on Render.</p>
+                        <div class="project-links">
+                            <a href="https://smartfarming-eta.vercel.app/" target="_blank" class="project-link link-live"><i class="fas fa-external-link-alt"></i> Live App</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1592210454359-9043f067919b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Weather Application" class="project-img" />
+                    <div class="project-overlay">
+                        <span class="project-tag">API Integration</span>
+                        <h3>Global Weather Tracker</h3>
+                        <p>A dynamic application providing real-time meteorological data across global cities via seamless third-party REST API integration.</p>
+                        <div class="project-links">
+                            <a href="https://weatherapplication-seven-kappa.vercel.app/" target="_blank" class="project-link link-live"><i class="fas fa-external-link-alt"></i> Live App</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="LMS Platform" class="project-img" />
+                    <div class="project-overlay">
+                        <span class="project-tag">E-Learning UI</span>
+                        <h3>LMS Portal</h3>
+                        <p>A clean, distraction-free static learning management system interface designed for maximum student retention and course accessibility.</p>
+                        <div class="project-links">
+                            <a href="https://lmsstaticapplication.vercel.app/" target="_blank" class="project-link link-live"><i class="fas fa-external-link-alt"></i> Live App</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="India Tourism" class="project-img" />
+                    <div class="project-overlay">
+                        <span class="project-tag">Frontend Design</span>
+                        <h3>India Heritage Explorer</h3>
+                        <p>A visually rich, highly optimized static tourism portal showcasing historical landmarks with smooth navigation and responsive design.</p>
+                        <div class="project-links">
+                            <a href="https://myfirstwebapplication.vercel.app/" target="_blank" class="project-link link-live"><i class="fas fa-external-link-alt"></i> Live App</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Library Management" class="project-img" />
+                    <div class="project-overlay">
+                        <span class="project-tag">Resource UI</span>
+                        <h3>Digital Library Hub</h3>
+                        <p>A structured, user-centric interface for digital cataloging and resource management, emphasizing ease of use and content hierarchy.</p>
+                        <div class="project-links">
+                            <a href="https://librarystaticapplication.vercel.app/" target="_blank" class="project-link link-live"><i class="fas fa-external-link-alt"></i> Live App</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="more-projects">
+                <a href="https://github.com/madhavareddy-5" target="_blank" class="btn btn-secondary" style="padding: 15px 40px; border-width: 3px;">Explore All My Projects on GitHub <i class="fab fa-github" style="margin-left:8px;"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="why-me">
+        <div class="container">
+            <h2 class="section-title">Why Businesses Choose Me</h2>
+            <div class="benefits-container">
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Business-First Approach</h3>
+                    <p>I don't just write code. I build tools that align with your revenue goals and solve actual operational bottlenecks.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3>Uncompromising Speed</h3>
+                    <p>Slow sites kill conversions. Every project I deploy is ruthlessly optimized for lightning-fast load times.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Reliable Execution</h3>
+                    <p>Clear communication, transparent timelines, and code that works. I remove the friction from hiring a freelancer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Ready to scale? Let's talk.</h2>
+            <div class="contact-container">
+                <div class="contact-info-wrap">
+                    <h3>Stop losing potential clients to a bad digital experience.</h3>
+                    <p style="margin-bottom: 3rem;">Fill out the form, and let's schedule a brief discovery call. I'll provide a roadmap for your digital success, whether we end up working together or not.</p>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4 style="font-size: 1.2rem; margin-bottom: 0;">Email Me</h4>
+                            <p style="color: var(--primary); font-weight: 500;">madhavareddykethuwork@gmail.com</p> </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4 style="font-size: 1.2rem; margin-bottom: 0;">Location</h4>
+                            <p style="color: var(--gray);">Available for Remote Work Worldwide</p>
+                        </div>
+                    </div>  
+                </div>
+                
+                <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+                    <input type="hidden" name="access_key" value="ca05d373-d230-4f03-8fdf-1ef93734663c">
+                    
+                    <input type="hidden" name="redirect" value="thanks.html">
+                    
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Your Name or Company" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-control" placeholder="Your Work Email" required />
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" class="form-control" placeholder="Tell me about your project and business goals..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary form-btn">Request a Proposal <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-about">
+                <h3 style="font-weight: 800; font-size: 1.8rem;">Madhava<span style="color: var(--primary);">.</span></h3>
+                <p>Freelance web developer dedicated to building high-converting, scalable digital products for forward-thinking businesses.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About Me</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#projects">My Work</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Madhava Reddy Kethu. Built for Conversion.</div>
+    </footer>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.querySelector('.preloader');
+            preloader.classList.add('fade-out');
+            setTimeout(() => preloader.style.display = 'none', 500);
+        });
+
+        // Navbar scroll behavior
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 50) navbar.classList.add('scrolled'); 
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const closeMenu = document.querySelector('.close-menu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', () => navLinks.classList.add('show'));
+        closeMenu.addEventListener('click', () => navLinks.classList.remove('show'));
+        
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('show'));
+        });
+
+        // GSAP Animations (Make sure not to animate the hero text immediately to avoid layout shifts)
+        gsap.utils.toArray('.section-title, .service-card, .benefit-item, .contact-info-wrap, .contact-form').forEach(element => {
+            gsap.from(element, {
+                opacity: 0, 
+                y: 30, 
+                duration: 0.8, 
+                scrollTrigger: {
+                    trigger: element, 
+                    start: 'top 85%'
+                }
+            });
+        });
+        
+        // Stagger project cards
+        gsap.from('.project-card', {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.2,
+            scrollTrigger: {
+                trigger: '.projects-container',
+                start: 'top 80%'
+            }
+        });
+    </script>
+</body>
+</html>
